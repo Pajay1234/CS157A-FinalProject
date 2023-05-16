@@ -62,10 +62,3 @@ class SearchCustomer extends React.Component {
 export default SearchCustomer;
 
 
-/*
-<ol>
-                                {this.state.res.map((cust, index) => {
-                                    <li key={index}>{index}. {cust.name} <p>{cust.email}  {cust.id}</p></li>
-                                })}
-                            </ol>
-*/

@@ -16,12 +16,17 @@ class CustomerLogin extends React.Component {
 
     async handleClick() {
         //authenticate)
-        if (this.state.enteredID == "1234" && this.state.enteredName == "Joe") {
+        let body = {
+            eid: this.state.enteredID,
+            name: this.state.enteredName,
+        };
+        const res = await axios.post("http://localhost:5000/api/authCustomer", {}, {params: body}); 
+        if (res.data.pass) {
             await this.setState({valid: true});
             await this.props.setuid(this.state.enteredID);
         }
         else {
-            await this.setState({msg: "Invalid login, try again"});
+            await this.setState({msg: "invalid login, try again"});
         }
     }
 

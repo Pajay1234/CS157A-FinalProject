@@ -58,6 +58,8 @@ app.post('/api/getSelectedPharmacyID', urlencodedParser, async (req, res) => {
     }); 
 });
 
+
+
 app.post('/api/getSelectedPharmacyDetails', urlencodedParser, async (req, res) => {
     let query = `SELECT *
                  FROM pharmacy
@@ -79,6 +81,24 @@ app.post('/api/authEmployee', urlencodedParser, async (req, res) => {
     SELECT *
     FROM employee
     WHERE pharmacy_id = '${req.query.pid}' AND employee_id = '${req.query.eid}' AND name = '${req.query.name}';
+    `;
+
+    await con.query(query, (err, result) => {
+        if (err) { console.log(err); res.send("error connecting to db"); } 
+        if (result.length < 1) {
+            res.json({pass: false});
+        }
+        else {
+            res.json({pass: true});
+        }
+    }); 
+});
+
+app.post('/api/authCustomer', urlencodedParser, async (req, res) => {
+    let query = `
+    SELECT *
+    FROM customer_prescription_invoice
+    WHERE customer_id = '${req.query.eid}' AND name = '${req.query.name}';
     `;
 
     await con.query(query, (err, result) => {
