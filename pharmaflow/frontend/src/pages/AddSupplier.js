@@ -15,7 +15,7 @@ class AddSupplier extends React.Component {
     }
     
     async handleSubmit() {
-
+        const res = await axios.post("http://localhost:5000/api/addSupplier", {}, {params: this.state}); 
     }
 
     render() {

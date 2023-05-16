@@ -20,7 +20,18 @@ class AddCustomer extends React.Component {
     }
 
     async handleSubmit() {
-        
+        let body = {
+            name: this.state.name,
+            address: this.state.address,
+            phoneNumber: this.state.phoneNumber,
+            email: this.state.email,
+            dob: this.state.dob,
+            pid: this.state.pid,
+            pName: this.state.pName,
+            pQuan: this.state.pQuan,
+            pFreq: this.state.pFreq
+        }
+        const res = await axios.post("http://localhost:5000/api/addCustomer", {}, {params: body}); 
     }
 
     render() {
@@ -40,7 +51,7 @@ class AddCustomer extends React.Component {
                 </div>
                 <div>
                     <span>
-                        <p>Phone Number: &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <input placeholder={"xxx-xxx-xxxx"} onChange={async (event) => await this.setState({phoneNumber: event.target.value})}/></p> 
+                        <p>Phone Number: &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <input placeholder={"xxx-xxxx"} onChange={async (event) => await this.setState({phoneNumber: event.target.value})}/></p> 
                     </span>
                 </div>
                 <div>
@@ -50,7 +61,7 @@ class AddCustomer extends React.Component {
                 </div>
                 <div>
                     <span>
-                        <p>Date of Birth: &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <input placeholder={"mm-dd-yyyy"} onChange={async (event) => await this.setState({name: event.target.value})}/></p> 
+                        <p>Date of Birth: &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <input placeholder={"yyyy-mm-dd"} onChange={async (event) => await this.setState({dob: event.target.value})}/></p> 
                     </span>
                 </div>
 

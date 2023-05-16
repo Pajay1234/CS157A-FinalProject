@@ -13,6 +13,15 @@ class CustomerInvoice extends React.Component {
         };
     }
 
+    async handleSubmit() {
+        let body = {
+            cid: this.state.custID,
+            pNum: this.state.productNum,
+            quantity: this.state.quantity
+        };
+        const res = await axios.post("http://localhost:5000/api/addInvoice", {}, {params: body}); 
+    }
+
     render() {
         return (
             <div style={{color:"#EF984B"}}>

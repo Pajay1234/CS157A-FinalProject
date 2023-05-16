@@ -9,7 +9,7 @@ class SelectPharmacy extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pharmacyNames: ["CVS Pharmacy", "Walgreens", "SJSU Pharmacy"],  //should be []
+            pharmacyNames: [],  //should be []
             selectedPharmacy: "",
             selectedPharmacyID: 0,
             msg: "",
@@ -19,13 +19,29 @@ class SelectPharmacy extends React.Component {
 
     async handleClick() {
         if (this.state.selectedPharmacy) {
-            //query for pharmacy ID
-            await this.setState({selectedPharmacyID: 1});
-            await this.setState({valid: true});
+            let body = {
+                name: this.state.selectedPharmacy
+            };
+            const res = await axios.post("http://localhost:5000/api/getSelectedPharmacyID", {}, {params: body});  
+            console.log(res.data);
+            let id = res.data.pharmacyID ? res.data.pharmacyID.pharmacy_id : null;
+            if (!res) {
+                await this.setState({msg: res.data.msg});
+            }
+            else {
+                await this.props.setpid(id);
+                await this.setState({selectedPharmacyID: id});
+                await this.setState({valid: true});
+            }
         }
         else {
             await this.setState({msg: "Select a  pharmacy first"});
         }
+    }
+
+    async componentDidMount() {
+        const res = await axios.post("http://localhost:5000/api/getAllPharmacies", {}, {});  
+        await this.setState({pharmacyNames: res.data});
     }
     
     render() {

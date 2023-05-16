@@ -13,19 +13,13 @@ class SearchCustomer extends React.Component {
 
     async handleClick() {
         ///send this.state.input
-        let x = [
-            {
-                name: "John Smith",
-                id: 1,
-                email: "johnsmith@gmail.com"
-            },
-            {
-                name: "Anita Pee",
-                id: 2,
-                email: "funnyname@gmail.com"
-            }
-        ];
-
+        let body = {
+            input: this.state.input
+        }
+        const res = await axios.post("http://localhost:5000/api/searchCustomer", {}, {params: body}); 
+        let x = res.data.customers ? res.data.customers : null;
+        console.log(x);
+        console.log(res.data);
         await this.setState({res: x});
     }
 
@@ -40,7 +34,7 @@ class SearchCustomer extends React.Component {
                     <p>Valid identifiers are id, name, and email. Click on a customer's <span style={{color:"#EF984B"}}>name</span> to edit their prescription information</p>
                     
                     <span style={{}}>
-                        <input style={{width:900, borderWidth: 4, borderColor:"#EF984B"}} placeholder='ex. name: John Smith'></input>
+                        <input style={{width:900, borderWidth: 4, borderColor:"#EF984B"}} placeholder='ex. name: John Smith' onChange={async (event) => {await this.setState({input: event.target.value})}}></input>
                         <button style={{width:100, borderWidth: 4, borderColor:"#EF984B"}}onClick ={async () => await this.handleClick()}>Search</button>
                     </span>
                 </div>
@@ -50,7 +44,7 @@ class SearchCustomer extends React.Component {
                         (this.state.res.length != 0) ? (
                             <ol>
                                 {this.state.res.map((customer, index) => (
-                                    <p key={index}>{customer.id}  <Link style={{color:"#EF984B"}} to={`/edit-prescription-info/${customer.id}`}>{customer.name}</Link>    {customer.email}</p>
+                                    <p key={index}>{customer.customer_id}  <Link style={{color:"#EF984B"}} to={`/edit-prescription-info/${customer.customer_id}`}>{customer.name}</Link>    {customer.email}   {customer.phone_number}</p>
                                 ))}
                             </ol>
                         ) : (

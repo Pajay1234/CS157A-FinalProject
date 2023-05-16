@@ -10,17 +10,25 @@ class UserSelect extends React.Component {
             pharmacyName: "",
             pharmacyPhoneNumber: "",
             pharmacyWebsite: "",
+            pharmacyEmail: ""
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        let body = {
+            id: window.location.pathname.split("/")[2]
+        }
+        let res = await axios.post("http://localhost:5000/api/getSelectedPharmacyDetails", {}, {params: body});  
+        res = res.data.pharmacy;
+        console.log(res);
         let newState = {
             pharmacyID:  window.location.pathname.split("/")[2],
-            pharmacyName: "CVS Pharmacy",
-            pharmacyPhoneNumber: "123-456-7890",
-            pharmacyWebsite: "www.cvs.com",
-        }
-        this.setState(newState);
+            pharmacyName: res.name,
+            pharmacyPhoneNumber: res.phone_number,
+            pharmacyWebsite: res.website,
+            pharmacyEmail: res.email
+        };
+        await this.setState(newState);
     }
 
     render() {
@@ -32,6 +40,7 @@ class UserSelect extends React.Component {
                 <div>
                     <h3>{this.state.pharmacyPhoneNumber}</h3>
                     <h3>{this.state.pharmacyWebsite}</h3>
+                    <h3>{this.state.pharmacyEmail}</h3>
                     <h1>  </h1>
                 </div>
                 <div>

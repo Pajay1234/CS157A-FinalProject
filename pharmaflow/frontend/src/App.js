@@ -28,10 +28,16 @@ class App extends React.Component {
       dummy: 1
     }
     this.setUid = this.setUid.bind(this);
+    this.setPid = this.setPid.bind(this);
   }
 
-  async setUid (newID) {
+  async setUid(newID) {
     await localStorage.setItem('uid', newID);
+    await this.setState({dummy: this.state.dummy*-1});
+  }
+
+  async setPid(newID) {
+    await localStorage.setItem('pid', newID);
     await this.setState({dummy: this.state.dummy*-1});
   }
 
@@ -43,7 +49,7 @@ class App extends React.Component {
         <BrowserRouter>
             <Routes>
               <Route path="/" element={<Navigate to="/select-pharmacy"/>}/>
-              <Route path="/select-pharmacy" element={<SelectPharmacy/>}/>
+              <Route path="/select-pharmacy" element={<SelectPharmacy setpid={this.setPid}/>}/>
               {/*<Route path="/select-pharmacy-location/:pharmacyName" element={<SelectPharmacyLocation/>}/>*/}
               <Route path="/user-select/:pharmacyName" element={<UserSelect/>}/>
               <Route path="/customer-login" element={<CustomerLogin setuid={this.setUid}/>}/>

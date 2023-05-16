@@ -16,7 +16,13 @@ class EmployeeLogin extends React.Component {
 
     async handleClick() {
         //authenticate
-        if (this.state.enteredID == "1234" && this.state.enteredName == "Joe") {
+        let body = {
+            eid: this.state.enteredID,
+            name: this.state.enteredName,
+            pid: localStorage.getItem('pid')
+        };
+        const res = await axios.post("http://localhost:5000/api/authEmployee", {}, {params: body}); 
+        if (res.data.pass) {
             await this.setState({valid: true});
             await this.props.setuid(this.state.enteredID);
         }

@@ -15,16 +15,33 @@ class EditPrescriptionInfo extends React.Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         //get prescription info
+        let body = {
+            id: window.location.pathname.split("/")[2]
+        }
+        const res = await axios.post("http://localhost:5000/api/getCustomerPrescriptionInfo", {}, {params: body});
+        let p = res.data.prescription
+
         this.setState({
             customerID: window.location.pathname.split("/")[2],
             employeeID: this.props.employeeID,
-            pName: "zyrtec",
-            pID: 5,
-            pQuantity: 20,
-            pFrequency: 2
+            pName: p.prescription_name,
+            pID: p.prescription_id,
+            pQuantity: p.prescription_quantity,
+            pFrequency: p.prescription_frequency
         });
+    }
+
+    async handleSubmit() {
+        let body = {
+            cid: this.state.customerID,
+            pid: this.state.pID,
+            name: this.state.pName,
+            quantity: this.state.pQuantity,
+            frequency: this.state.pFrequency
+        }
+        const res = await axios.post("http://localhost:5000/api/changeCustomerPrescriptionInfo", {}, {params: body});
     }
 
     render() {
